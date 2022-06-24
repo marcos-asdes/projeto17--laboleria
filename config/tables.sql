@@ -2,7 +2,7 @@ CREATE TABLE "clients" (
 	"id" SERIAL PRIMARY KEY NOT NULL,
 	"name" VARCHAR(80) NOT NULL UNIQUE,
 	"address" VARCHAR(255) NOT NULL,
-	"phone" VARCHAR(11) NOT NULL UNIQUE,
+	"phone" VARCHAR(11) NOT NULL UNIQUE
 );
 
 CREATE TABLE "cakes" (
@@ -10,7 +10,7 @@ CREATE TABLE "cakes" (
 	"name" VARCHAR(80) NOT NULL UNIQUE,
 	"price" INTEGER NOT NULL,
 	"image" VARCHAR(255) NOT NULL,
-	"description" TEXT,
+	"description" TEXT
 );
 
 CREATE TABLE "orders" (
@@ -18,6 +18,6 @@ CREATE TABLE "orders" (
 	"clientId" INTEGER NOT NULL REFERENCES "clients"("id"),
 	"cakeId" INTEGER NOT NULL REFERENCES "cakes"("id"),
 	"quantity" INTEGER NOT NULL,
-	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
-	"totalPrice" INTEGER NOT NULL,
+	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+	"totalPrice" INTEGER NOT NULL
 );

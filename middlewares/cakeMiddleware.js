@@ -38,8 +38,8 @@ export async function validateCake(req, res, next) {
 }
 
 export async function cakeAlreadyExist(req, res, next) {
+    const { name } = req.body;
     try {
-        const { name } = req.body;
         const checkCakeAlreadyExist = await cakesRepository.selectCakeByName(name);
         if (checkCakeAlreadyExist.rows.length > 0) {
             return res.status(409).send({

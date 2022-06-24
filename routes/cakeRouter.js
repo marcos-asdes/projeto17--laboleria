@@ -5,7 +5,7 @@ import { postCakeRecipe } from "../controllers/cakeController.js";
 
 const cakesRouter = Router();
 
-//Router().method(address, middleware, controller);
+// Router().method(address, middleware, controller);
 cakesRouter.post("/cakes", validateCake, cakeAlreadyExist, postCakeRecipe);
 
 export default cakesRouter;

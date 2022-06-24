@@ -12,7 +12,7 @@ export async function validateOrder(req, res, next) {
                 detail: validate.error.details.map((e) => e.message).join(', ')
             });
         }
-        res.locals.name = quantity;
+        res.locals.quantity = quantity;
         console.log("Validation parameters met");
         next();
     } catch (e) {

@@ -1,4 +1,4 @@
-import { cakesRepository } from "../repositories/cakesRepository";
+import { cakesRepository } from "../repositories/cakesRepository.js";
 
 export async function postCakeRecipe(_req, res) {
     const { name, price, description, image } = res.locals;

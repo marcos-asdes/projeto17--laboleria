@@ -4,7 +4,7 @@ import { cakeSchema } from "../schemas/cakeSchema.js";
 import { cakesRepository }  from "../repositories/cakesRepository.js";
 
 export async function validateCake(req, res, next) {
-    const { name, price, description, image } = req.body
+    const { name, price, description, image } = req.body;
     try {
         if (!urlExist(image)){
             return res.status(422).send({

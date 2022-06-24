@@ -1,9 +1,17 @@
+import urlExist from "url-exist";
+
 import { cakeSchema } from "../schemas/cakeSchema.js";
 import { cakesRepository }  from "../repositories/cakesRepository.js";
 
 export async function validateCake(req, res, next) {
     const { name, price, description, image } = req.body
     try {
+        if (!urlExist(image)){
+            return res.status(422).send({
+                message: "Invalid image link",
+                detail: "Please enter a valid image link"
+            });
+        }
         const validate = cakeSchema.validate({ name, price, description, image }, { abortEarly: false });
         if (validate.error) {
             return res.status(400).send({

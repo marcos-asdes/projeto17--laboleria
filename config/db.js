@@ -1,4 +1,4 @@
-import pg from "pg";
+/* import pg from "pg";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -15,4 +15,22 @@ if (process.env.MODE === "PROD") {
 
 console.log(configDatabase);
 const db = new Pool(configDatabase);
+export default db; */
+
+import pg from 'pg';
+import dotenv from "dotenv";
+dotenv.config();
+
+const { Pool } = pg;
+
+const databaseConfig = {
+    host: 'localhost',
+    port: 5432,
+    user: 'postgres',
+    password: process.env.PASSWORD,
+    database: 'laboleria'
+}
+
+const db = new Pool(databaseConfig);
+
 export default db;

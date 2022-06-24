@@ -1,4 +1,4 @@
-import { clientSchema } from "../schemas/clientSchema";
+import { clientSchema } from "../schemas/clientSchema.js";
 
 export async function validateClient(req, res, next) {
     const { name, address, phone } = req.body;

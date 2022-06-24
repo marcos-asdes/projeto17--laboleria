@@ -8,7 +8,7 @@ CREATE TABLE "clients" (
 CREATE TABLE "cakes" (
 	"id" SERIAL PRIMARY KEY NOT NULL,
 	"name" VARCHAR(80) NOT NULL UNIQUE,
-	"price" INTEGER NOT NULL,
+	"price" NUMERIC(10,2) NOT NULL,
 	"image" VARCHAR(255) NOT NULL,
 	"description" TEXT
 );
@@ -19,5 +19,5 @@ CREATE TABLE "orders" (
 	"cakeId" INTEGER NOT NULL REFERENCES "cakes"("id"),
 	"quantity" INTEGER NOT NULL,
 	"createdAt" TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
-	"totalPrice" INTEGER NOT NULL
+	"totalPrice" NUMERIC(10,2) NOT NULL
 );

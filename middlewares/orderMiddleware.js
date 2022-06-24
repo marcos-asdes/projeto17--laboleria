@@ -38,6 +38,8 @@ export async function checkClientAndCakeIds(req, res, next) {
                 detail: "Enter a valid clientId",
             });
         }
+        res.locals.clientId = clientId;
+        res.locals.cakeId = cakeId;
         console.log("clientId and cakeId validated");
         next();
     } catch (e) {

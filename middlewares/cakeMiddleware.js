@@ -11,6 +11,12 @@ export async function validateCake(req, res, next) {
                 detail: validate.error.details.map((e) => e.message).join(', ')
             });
         }
+        if (price<=0) {
+            return res.status(400).send({
+                message: "Price not valid",
+                detail: "The price value must be greater than zero"
+            });
+        }
         res.locals.name = name;
         res.locals.price = price;
         res.locals.description = description;

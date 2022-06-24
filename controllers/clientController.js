@@ -11,3 +11,5 @@ export async function registerClient(_req, res) {
         res.status(500).send("Internal error");
     }
 }
+
+//export async function getClientOrder(req, res) {}

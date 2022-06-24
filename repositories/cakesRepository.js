@@ -18,7 +18,16 @@ async function insertCakeRecipe(name, price, description, image) {
     return db.query(query, values);
 }
 
+async function selectCakeById(id) {
+    const query = `
+    SELECT * FROM cakes WHERE id = $1
+    `;
+    const value = [id];
+    return db.query(query, value);
+}
+
 export const cakesRepository = {
     selectCakeByName,
     insertCakeRecipe,
+    selectCakeById,
 };

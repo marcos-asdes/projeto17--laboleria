@@ -49,7 +49,7 @@ export async function checkClientAndCakeIds(req, res, next) {
     }
 }
 
-export async function checkDate( req, res, next) {
+export async function checkDate(req, res, next) {
     let date = req.params.date;
     if (date.length===10) date = req.params.date; // "orders/YYYY-MM-DD"
     else if (date.length>10) date = req.params.date.slice(5); // "orders/date=YYYY-MM-DD"
@@ -75,4 +75,21 @@ export async function checkDate( req, res, next) {
         console.log("Error: " + e.message);
         next();
     }
+}
+
+export async function checkAnyDateExists(_req, res, next) {
+    try {
+        const checkAnyDateExistsInDB = await ordersRepository.selectDates();
+        if (!checkAnyDateExistsInDB.rows.length > 0) {
+            return res.status(404).send({
+                message: "No order found",
+                detail: "There are no order records in the database",
+            });
+        }
+        console.log("There are order records in the database");
+        next();
+    } catch (e) {
+        console.log("Error: " + e.message);
+        next();
+    }    
 }

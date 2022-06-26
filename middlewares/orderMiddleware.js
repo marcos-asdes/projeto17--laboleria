@@ -1,6 +1,9 @@
+import queryString from "query-string";
+
 import { orderSchema } from "../schemas/orderSchema.js";
 import { cakesRepository } from "../repositories/cakesRepository.js";
 import { clientsRepository } from "../repositories/clientsRepository.js";
+import { ordersRepository } from "../repositories/ordersRepository.js";
 
 export async function validateOrder(req, res, next) {
     const { quantity } = req.body;
@@ -41,6 +44,33 @@ export async function checkClientAndCakeIds(req, res, next) {
         res.locals.clientId = clientId;
         res.locals.cakeId = cakeId;
         console.log("clientId and cakeId validated");
+        next();
+    } catch (e) {
+        console.log("Error: " + e.message);
+        next();
+    }
+}
+
+export async function checkDate(_req, res, next) {
+    const parsed = queryString.parse(location.search);
+    const date = parsed.date;
+    try {
+        const allDates = await ordersRepository.selectDates();
+        let checkDate = false;
+        for (let i=0; i<allDates.rows.length; i++) {
+            const auxDate = allDates.rows[i].createdAt.toISOString().slice(0,10);
+            if (auxDate===date) {
+                checkDate = true;
+            }
+        }
+        if (!checkDate) {
+            return res.status(404).send({
+                message: "No order found",
+                detail: "Enter a valid date, remember to use query string in the format date=YYYY-MM-DD",
+            });
+        }
+        res.locals.date = date;
+        console.log("There is an order for the date in query string");
         next();
     } catch (e) {
         console.log("Error: " + e.message);

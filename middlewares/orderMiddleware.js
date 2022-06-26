@@ -1,4 +1,4 @@
-import queryString from "query-string";
+//import queryString from "query-string";
 
 import { orderSchema } from "../schemas/orderSchema.js";
 import { cakesRepository } from "../repositories/cakesRepository.js";
@@ -51,9 +51,10 @@ export async function checkClientAndCakeIds(req, res, next) {
     }
 }
 
-export async function checkDate(_req, res, next) {
-    const parsed = queryString.parse(location.search);
-    const date = parsed.date;
+export async function checkDate( req, res, next) {
+    let date = req.params.date;
+    if (date.length===10) date = req.params.date; // "orders/YYYY-MM-DD"
+    else if (date.length>10) date = req.params.date.slice(5); // "orders/date=YYYY-MM-DD"
     try {
         const allDates = await ordersRepository.selectDates();
         let checkDate = false;

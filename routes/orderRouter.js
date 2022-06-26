@@ -10,7 +10,7 @@ const orderRouter = Router();
 
 // Router().method(address, middleware, controller);
 orderRouter.post("/order", validateOrder, checkClientAndCakeIds, registerOrder);
-orderRouter.get("/orders", checkDate, getOrdersByDate);
+orderRouter.get("/orders/:date", checkDate, getOrdersByDate);
 // orderRouter.get("/orders", checkAnyDateExists, getOrders);
 // orderRouter.get("/orders/:id", checkClientId, getOrdersByClientId);
 

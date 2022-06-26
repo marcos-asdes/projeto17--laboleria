@@ -1,5 +1,3 @@
-//import queryString from "query-string";
-
 import { orderSchema } from "../schemas/orderSchema.js";
 import { cakesRepository } from "../repositories/cakesRepository.js";
 import { clientsRepository } from "../repositories/clientsRepository.js";

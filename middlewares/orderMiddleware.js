@@ -25,15 +25,15 @@ export async function validateOrder(req, res, next) {
 export async function checkClientAndCakeIds(req, res, next) {
     const { clientId, cakeId } = req.body;
     try {
-        const checkCakeIdAlreadyExist = await cakesRepository.selectCakeById(cakeId);
-        if (!checkCakeIdAlreadyExist.rows.length > 0) {
+        const checkCakeIdAlreadyExists = await cakesRepository.selectCakeById(cakeId);
+        if (!checkCakeIdAlreadyExists.rows.length > 0) {
             return res.status(404).send({
                 message: "Cake recipe does not exist",
                 detail: "Enter a valid cakeId",
             });
         }
-        const checkClientIdAlreadyExist = await clientsRepository.selectClientById(clientId);
-        if (!checkClientIdAlreadyExist.rows.length > 0) {
+        const checkClientIdAlreadyExists = await clientsRepository.selectClientById(clientId);
+        if (!checkClientIdAlreadyExists.rows.length > 0) {
             return res.status(404).send({
                 message: "Client does not exist",
                 detail: "Enter a valid clientId",
@@ -50,9 +50,9 @@ export async function checkClientAndCakeIds(req, res, next) {
 }
 
 export async function checkDate(req, res, next) {
-    let date = req.params.date;
-    if (date.length===10) date = req.params.date; // "orders/YYYY-MM-DD"
-    else if (date.length>10) date = req.params.date.slice(5); // "orders/date=YYYY-MM-DD"
+    let date = null;
+    req.query.date.length===10 ? date = req.query.date : date = null;
+    console.log("Checking date: " + date);
     try {
         const allDates = await ordersRepository.selectDates();
         let checkDate = false;
@@ -65,11 +65,11 @@ export async function checkDate(req, res, next) {
         if (!checkDate) {
             return res.status(404).send({
                 message: "No order found",
-                detail: "Enter a valid date, remember to use query string in the format date=YYYY-MM-DD",
+                detail: "Enter a valid date, remember to use query string in the format ?date=YYYY-MM-DD",
             });
         }
         res.locals.date = date;
-        console.log("There is an order for the date in query string");
+        console.log("There is at least one order for the date in the query string");
         next();
     } catch (e) {
         console.log("Error: " + e.message);
@@ -92,4 +92,24 @@ export async function checkAnyDateExists(_req, res, next) {
         console.log("Error: " + e.message);
         next();
     }    
+}
+
+export async function checkOrderId (req, res, next) {
+    const id = req.params.id;
+    console.log("Checking order id: " + id);
+    try {
+        const getOrdersById = await ordersRepository.selectById(id);
+        if (!getOrdersById.rows.length > 0) {
+                return res.status(404).send({
+                message: "No id found",
+                detail: "The id entered is not valid or does not exist",
+            });
+        }
+        res.locals.id = id;
+        console.log("The id entered is valid");
+        next();
+    } catch (e) {
+        console.log("Error: " + e.message);
+        next();
+    }
 }

@@ -29,8 +29,18 @@ async function fullOrders() {
     return db.query(query);
 }
 
+async function selectById(id) {
+    const query = `
+    SELECT * FROM orders 
+    WHERE orders.id = $1
+    `
+    const value = [id];
+    return db.query(query, value);
+}
+
 export const ordersRepository = {
     insertRegisterOrder,
     selectDates,
     fullOrders,
+    selectById,
 };

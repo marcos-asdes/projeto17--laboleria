@@ -24,8 +24,8 @@ export async function getOrdersByDate(_req, res) {
             const auxDate = fullOrders.rows[i].order_createdat.toISOString().slice(0,10);
             let aux = fullOrders.rows[i];
             if (auxDate===date) {
-                let objOrders = new Object();
-                objOrders = {
+                let objOrder = new Object();
+                objOrder = {
                     client: 
                         { 
                             id: aux.client_id, 
@@ -45,7 +45,7 @@ export async function getOrdersByDate(_req, res) {
                     quantity: aux.order_quantity,
                     totalPrice: aux.order_totalprice
                 }
-                arrOrders.push(objOrders);
+                arrOrders.push(objOrder);
             }
         }
         const arrOrdersJSON = JSON.stringify(arrOrders);
@@ -63,8 +63,8 @@ export async function getOrders(_req, res) {
         const arrOrders = [];
         for (let i=0; i<fullOrders.rows.length; i++) {
             let aux = fullOrders.rows[i];
-            let objOrders = new Object();
-            objOrders = {
+            let objOrder = new Object();
+            objOrder = {
                 client: 
                     { 
                         id: aux.client_id, 
@@ -84,7 +84,7 @@ export async function getOrders(_req, res) {
                 quantity: aux.order_quantity,
                 totalPrice: aux.order_totalprice
             }
-            arrOrders.push(objOrders); 
+            arrOrders.push(objOrder); 
         }
         const arrOrdersJSON = JSON.stringify(arrOrders);
         console.log("Get orders successfully");
@@ -93,4 +93,8 @@ export async function getOrders(_req, res) {
         console.log(e);
         res.status(500).send("Internal error");
     }
+}
+
+export async function getOrdersByClientId(req, res) {
+
 }
